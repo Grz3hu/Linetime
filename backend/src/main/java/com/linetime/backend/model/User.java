@@ -22,8 +22,7 @@ public class User {
 
     }
 
-    public User(int id, String name, String surname, String email, String password) {
-        this.id = id;
+    public User(String name, String surname, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -32,10 +31,6 @@ public class User {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
