@@ -1,3 +1,1 @@
---
--- Place init sql script here
---
+INSERT INTO roles VALUES('ROLE_ADMIN');
