@@ -4,21 +4,18 @@ import com.linetime.backend.exception.UserNotFoundException;
 import com.linetime.backend.model.User;
 import com.linetime.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:3001")
+@Secured("ROLE_ADMIN")
+@CrossOrigin("http://localhost:3000")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @PostMapping("/register")
-    User addUser(@RequestBody User newUser){
-        return userRepository.save(newUser);
-    }
 
     @GetMapping("/user/{id}")
     User getUserById(@PathVariable Integer id){

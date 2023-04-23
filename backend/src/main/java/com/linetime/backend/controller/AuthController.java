@@ -1,13 +1,14 @@
 package com.linetime.backend.controller;
 
+import com.linetime.backend.jwt.JwtTokenUtil;
+import com.linetime.backend.jwt.JwtResponse;
 import com.linetime.backend.model.Role;
 import com.linetime.backend.model.User;
 import com.linetime.backend.payload.LoginDto;
 import com.linetime.backend.payload.SignUpDto;
 import com.linetime.backend.repository.RoleRepository;
 import com.linetime.backend.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.linetime.backend.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +16,25 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin("http://localhost:3001")
+@CrossOrigin("http://localhost:3000")
 public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private UserRepository userRepository;
@@ -54,7 +61,7 @@ public class AuthController {
         // create user object
         User user = new User();
         user.setName(signUpDto.getName());
-        user.setUsername(signUpDto.getUsername()); //TODO change to either surname or username
+        user.setUsername(signUpDto.getUsername());
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
@@ -73,6 +80,12 @@ public class AuthController {
                 loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
+
+        final UserDetails userDetails = customUserDetailsService
+                .loadUserByUsername(loginDto.getUsernameOrEmail());
+
+        final String token = jwtTokenUtil.generateToken(userDetails);
+
+        return new ResponseEntity<>(new JwtResponse(token), HttpStatus.OK);
     }
 }
