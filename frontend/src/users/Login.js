@@ -6,11 +6,11 @@ export default function Login() {
   let navigate = useNavigate();
 
   const [user, setUser] = useState({
+    usernameOrEmail: "",
     password: "",
-    email: "",
   });
 
-  const {email, password } = user;
+  const {usernameOrEmail, password } = user;
 
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -18,7 +18,7 @@ export default function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/login", user);
+    await axios.post("http://localhost:8080/api/auth/signin", user);
     navigate("/");
   };
 
@@ -31,14 +31,14 @@ export default function Login() {
           <form onSubmit={(e) => onSubmit(e)}>
             <div className="mb-3">
               <label htmlFor="Email" className="form-label">
-                E-mail
+                Username / E-mail
               </label>
               <input
                 type={"text"}
                 className="form-control"
-                placeholder="Enter your e-mail address"
-                name="email"
-                value={email}
+                placeholder="Enter your e-mail or username"
+                name="usernameOrEmail"
+                value={usernameOrEmail}
                 onChange={(e) => onInputChange(e)}
               />
             </div>

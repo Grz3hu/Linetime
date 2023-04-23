@@ -7,12 +7,12 @@ export default function AddUser() {
 
   const [user, setUser] = useState({
     name: "",
-    surname: "",
+    username: "",
     password: "",
     email: "",
   });
 
-  const { name, surname, email, password } = user;
+  const { name, username, email, password } = user;
 
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -20,7 +20,7 @@ export default function AddUser() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/register", user);
+    await axios.post("http://localhost:8080/api/auth/signup", user);
     navigate("/");
   };
 
@@ -45,15 +45,15 @@ export default function AddUser() {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="Surname" className="form-label">
-                Surname
+              <label htmlFor="Username" className="form-label">
+                Username
               </label>
               <input
                 type={"text"}
                 className="form-control"
-                placeholder="Enter your surname"
-                name="surname"
-                value={surname}
+                placeholder="Enter your username"
+                name="username"
+                value={username}
                 onChange={(e) => onInputChange(e)}
               />
             </div>

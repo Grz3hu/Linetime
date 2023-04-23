@@ -8,7 +8,10 @@ import Login from './users/Login';
 import EditUser from './users/EditUser';
 import ViewUser from './users/ViewUser';
 import ViewTimeline from './timelines/ViewTimeline';
+import BrowseTimeline from './timelines/BrowseTimelines';
+import AddTimeline from './timelines/AddTimeline';
 import BrowseUsers from './users/BrowseUsers';
+import AddEvent from './timelines/AddEvent';
 
 
 function App() {
@@ -25,6 +28,9 @@ function App() {
         <Route exact path="/user/:id" element={<ViewUser/>}/>
         <Route exact path="/users" element={<BrowseUsers/>}/>
         <Route exact path="/timeline/:id" element={<ViewTimeline/>}/>
+        <Route exact path="/browse_timelines" element={<BrowseTimeline/>}/>
+        <Route exact path="/add_timeline" element={<AddTimeline/>}/>
+        <Route exact path="/add_event" element={<AddEvent/>}/>
       </Routes>
 
       </Router>
