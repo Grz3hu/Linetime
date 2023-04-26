@@ -8,7 +8,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
-    @JoinColumn(name="events", nullable=false)
+    @JoinColumn(name="timeline_id", nullable=false)
     private Timeline timeline;
 
     private String date;

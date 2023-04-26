@@ -11,7 +11,7 @@ public class Timeline {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="timelines", nullable=false)
+    @JoinColumn(name="owner_id", nullable=false)
     private User owner;
 
     @OneToMany(mappedBy="timeline")
