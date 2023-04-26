@@ -1,5 +1,7 @@
 package com.linetime.backend;
 
+import com.linetime.backend.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +11,8 @@ import org.springframework.web.filter.CorsFilter;
 
 @SpringBootApplication
 public class BackendApplication {
+	@Autowired
+	private RoleRepository roleRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);

@@ -10,25 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Secured("ROLE_ADMIN")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     User getUserById(@PathVariable Integer id){
         return userRepository.findById(id)
                 .orElseThrow(()->new UserNotFoundException(id));
     }
 
-    @GetMapping("/users")
+    @GetMapping("/all")
     List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/{id}")
     User updateUser(@RequestBody User newUser, @PathVariable Integer id) {
         return userRepository.findById(id)
                 .map(user -> {
@@ -39,7 +39,7 @@ public class UserController {
                 }).orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/{id}")
     String deleteUser(@PathVariable Integer id){
         if(!userRepository.existsById(id)){
             throw new UserNotFoundException(id);

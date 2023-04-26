@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { SetAuthToken } from "../auth/SetAuthToken";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -18,8 +19,17 @@ export default function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/api/auth/signin", user);
-    navigate("/");
+    await axios.post("http://localhost:8080/api/auth/signin", user)
+    .then(response => {
+        const token = response.data.token;
+
+        localStorage.setItem("token", token);
+        
+        SetAuthToken(token);
+    
+        navigate("/");
+      })
+      .catch(err => console.log(err));
   };
 
   return (

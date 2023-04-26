@@ -4,6 +4,7 @@ import com.linetime.backend.jwt.JwtTokenUtil;
 import com.linetime.backend.jwt.JwtResponse;
 import com.linetime.backend.model.Role;
 import com.linetime.backend.model.User;
+import com.linetime.backend.payload.IsAdminDto;
 import com.linetime.backend.payload.LoginDto;
 import com.linetime.backend.payload.SignUpDto;
 import com.linetime.backend.repository.RoleRepository;
@@ -18,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -65,7 +67,7 @@ public class AuthController {
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
-        Role roles = roleRepository.findByName("ROLE_ADMIN").get();
+        Role roles = roleRepository.findByName("ROLE_USER").get();
         user.setRoles(Collections.singleton(roles));
 
         userRepository.save(user);
@@ -87,5 +89,11 @@ public class AuthController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return new ResponseEntity<>(new JwtResponse(token), HttpStatus.OK);
+    }
+
+    @GetMapping("/isadmin")
+    public ResponseEntity<?> isAdmin(SecurityContextHolderAwareRequestWrapper request){
+        boolean result = request.isUserInRole("ROLE_ADMIN");
+        return new ResponseEntity<>(new IsAdminDto(result), HttpStatus.OK);
     }
 }

@@ -10,7 +10,8 @@ export default function BrowseUsers() {
     }, []);
 
     const loadUsers = async () => {
-        const result = await axios.get("http://localhost:8080/users");
+        const result = await axios.get("http://localhost:8080/user/all");
+        
         setUsers(result.data);
     };
 
@@ -22,7 +23,7 @@ export default function BrowseUsers() {
 
     return (
         <div className='container'>
-          <h2 className="text-center m-4">Browse Users</h2>
+            <h2 className="text-center m-4">Browse Users</h2>
             <div className='py-4'>
                 <table className="table border shadow">
                     <thead>
