@@ -1,5 +1,6 @@
 package com.linetime.backend.model;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -12,9 +13,10 @@ public class Timeline {
 
     @ManyToOne
     @JoinColumn(name="owner_id", nullable=false)
+    @JsonBackReference
     private User owner;
 
-    @OneToMany(mappedBy="timeline")
+    @OneToMany(mappedBy="timeline", cascade = CascadeType.ALL)
     private Set<Event> events;
 
     private String timelineTitle;
