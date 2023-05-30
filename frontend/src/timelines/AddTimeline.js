@@ -9,31 +9,20 @@ export default function AddEvent() {
   const { id } = useParams();
 
   const [timeline, setTimeline] = useState({
-    date: "",
-    cardTitle: "",
-    cardSubtitle: "",
-    cardDetailedText: ""
+    title: "",
+    mode: ""
   });
 
-  const { date, cardTitle, cardSubtitle, cardDetailedText } = timeline;
+  const { title, mode} = timeline;
 
   const onInputChange = (e) => {
     setTimeline({ ...timeline, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    loadUser();
-  }, []);
-
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:8080/timeline/${id}`, timeline);
+    await axios.post(`http://localhost:8080/timeline/create`, timeline);
     navigate("/");
-  };
-
-  const loadUser = async () => {
-    const result = await axios.get(`http://localhost:8080/user/${id}`);
-    setTimeline(result.data);
   };
 
   return (
@@ -44,15 +33,15 @@ export default function AddEvent() {
 
           <form onSubmit={(e) => onSubmit(e)}>
             <div className="mb-3">
-              <label htmlFor="Date" className="form-label">
-                Name
+              <label htmlFor="Text" className="form-label">
+                Timeline title
               </label>
               <input
                 type={"text"}
                 className="form-control"
-                placeholder="Enter date"
-                name="date"
-                value={date}
+                placeholder="Enter title"
+                name="title"
+                value={title}
                 onChange={(e) => onInputChange(e)}
               />
             </div>
@@ -64,6 +53,7 @@ export default function AddEvent() {
                 className="form-select" 
                 placeholder="Choose timeline mode"
                 name="mode"
+                value={mode}
                 onChange={(e) => onInputChange(e)}
                 aria-label="Default select example"
                 >

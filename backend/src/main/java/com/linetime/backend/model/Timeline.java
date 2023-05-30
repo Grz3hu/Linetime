@@ -2,16 +2,21 @@ package com.linetime.backend.model;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Set;
 
+@Data
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Timeline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="owner_id", nullable=false)
     @JsonBackReference
     private User owner;
@@ -19,7 +24,8 @@ public class Timeline {
     @OneToMany(mappedBy="timeline", cascade = CascadeType.ALL)
     private Set<Event> events;
 
-    private String timelineTitle;
+    private String title;
+    private String mode;
 
     public Timeline() {
 
@@ -28,39 +34,14 @@ public class Timeline {
     public Timeline(int id, User owner, String timelineTitle, Set<Event> events) {
         this.id = id;
         this.owner = owner;
-        this.timelineTitle = timelineTitle;
+        this.title = timelineTitle;
         this.events = events;
     }
-
-    public int getId() {
-        return id;
+    public int getOwnerId(){
+        return owner.getId();
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
-    public String getTimelineTitle() {
-        return timelineTitle;
-    }
-
-    public void setTimelineTitle(String timelineTitle) {
-        this.timelineTitle = timelineTitle;
-    }
-
-    public Set<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(Set<Event> events) {
-        this.events = events;
+    public String getOwnerName(){
+        return owner.getName();
     }
 }

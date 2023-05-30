@@ -57,7 +57,6 @@ public class SecurityConfig {
                 // dont authenticate this particular request
                 .authorizeRequests().
                 requestMatchers("/api/auth/signin","/api/auth/signup").permitAll().
-                requestMatchers("/user/**").hasRole("ADMIN").
                 requestMatchers("/timeline/**").hasRole("USER").
                 anyRequest().authenticated().and(). // all other requests need to be authenticated
                 // make sure we use stateless session; session won't be used to

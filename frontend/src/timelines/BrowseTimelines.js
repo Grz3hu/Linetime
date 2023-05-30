@@ -2,10 +2,30 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { Link } from "react-router-dom"
 
-export default function Home() {
+export default function BrowseTimelines() {
+    const [timelines, setTimelines] = useState([]);
+
+    useEffect(() => {
+        loadTimelines();
+    }, []);
+
+    const loadTimelines = async () => {
+        const result = await axios.get("http://localhost:8080/timeline/all");
+
+        console.log(result.data);
+        setTimelines(result.data);
+    };
+    
+    const deleteTimeline = async (id) => {
+        await axios.delete(`http://localhost:8080/timeline/${id}`);
+        loadTimelines();
+    };
+
+
+
     return (
         <div className='container'>
-          <h2 className="text-center m-4">Browse Timelines</h2>
+            <h2 className="text-center m-4">Browse Timelines</h2>
             <div className='py-4'>
                 <table className="table border shadow">
                     <thead>
@@ -18,29 +38,18 @@ export default function Home() {
                     </thead>
                     <tbody>
                         {
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>John Snow</td>
-                                <td>Test timeline</td>
-                                <td>
-                                    <Link className='btn btn-primary mx-2' to='/user/1'>User details</Link>
-                                    <Link className='btn btn-outline-primary mx-2' to='/timeline/1' >View Timeline</Link>
-                                    <button className="btn btn-danger mx-2" >Delete</button>
-                                </td>
-                            </tr>
-                            // users.map((user, index) => (
-                            //     <tr>
-                            //         <th scope="row" key={index}>{index + 1}</th>
-                            //         <td>{user.name}</td>
-                            //         <td>{user.surname}</td>
-                            //         <td>{user.email}</td>
-                            //         <td>
-                            //             <Link className='btn btn-primary mx-2' to={`/user/${user.id}`}>View</Link>
-                            //             <Link className='btn btn-outline-primary mx-2' to={`/edituser/${user.id}`}>Edit</Link>
-                            //             <button className="btn btn-danger mx-2" onClick={() => deleteUser(user.id)}>Delete</button>
-                            //         </td>
-                            //     </tr>
-                            // ))
+                            timelines.map((timeline, index) => (
+                                <tr>
+                                    <th scope="row" key={index}>{index + 1}</th>
+                                    <td>{timeline.ownerName}</td>
+                                    <td>{timeline.title}</td>
+                                    <td>
+                                        <Link className='btn btn-primary mx-2' to={`/user/${timeline.ownerId}`}>Owner details</Link>
+                                        <Link className='btn btn-outline-primary mx-2' to={`/timeline/${timeline.id}`}>View Timeline</Link>
+                                        <button className="btn btn-danger mx-2" onClick={() => deleteTimeline(timeline.id)}>Delete</button>
+                                    </td>
+                                </tr>
+                            ))
                         }
                     </tbody>
                 </table>

@@ -1,8 +1,6 @@
 package com.linetime.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.Comparator;
@@ -16,7 +14,9 @@ import lombok.Data;
         @UniqueConstraint(columnNames = {"username"}),
         @UniqueConstraint(columnNames = {"email"})
 })
-
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +27,8 @@ public class User{
     @JsonIgnore
     private String password;
 
-    @OneToMany(mappedBy="owner", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="owner", cascade = CascadeType.ALL)
     @JsonManagedReference
-    @JsonBackReference
     private Set<Timeline> timelines;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)

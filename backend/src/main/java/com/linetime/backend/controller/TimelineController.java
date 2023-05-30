@@ -1,8 +1,6 @@
 package com.linetime.backend.controller;
 
 import com.linetime.backend.exception.TimelineNotFoundException;
-import com.linetime.backend.exception.UserNotFoundException;
-import com.linetime.backend.model.Event;
 import com.linetime.backend.model.Timeline;
 import com.linetime.backend.model.User;
 import com.linetime.backend.payload.updateTimelineDto;
@@ -14,11 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -48,7 +41,7 @@ public class TimelineController {
         String currentPrincipalName = authentication.getName();
 
         Timeline timeline = new Timeline();
-        timeline.setTimelineTitle(newTimeline.getTimelineTitle());
+        timeline.setTitle(newTimeline.getTitle());
         timeline.setEvents(newTimeline.getEvents());
         timeline.setOwner(userRepository.findByUsernameOrEmail(currentPrincipalName,currentPrincipalName).get());
         timelineRepository.save(timeline);
@@ -72,7 +65,7 @@ public class TimelineController {
 
         Timeline result = timelineRepository.findById(id)
                 .map(timeline -> {
-                    timeline.setTimelineTitle(payload.getTimelineTitle());
+                    timeline.setTitle(payload.getTimelineTitle());
                     timeline.setEvents(payload.getEvents());
                     return timelineRepository.save(timeline);
                 }).orElseThrow(() -> new TimelineNotFoundException(id)); //TODO Investigate if exception is needed
