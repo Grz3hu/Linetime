@@ -29,6 +29,7 @@ public class User{
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="owner", cascade = CascadeType.ALL)
     @JsonManagedReference
+    @JsonIgnore
     private Set<Timeline> timelines;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)

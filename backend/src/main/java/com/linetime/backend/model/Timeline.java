@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -22,7 +24,8 @@ public class Timeline {
     private User owner;
 
     @OneToMany(mappedBy="timeline", cascade = CascadeType.ALL)
-    private Set<Event> events;
+    @JsonManagedReference("timeline-events")
+    private Collection<Event> events; //WTF when there is Set instead of collection returned data is always null
 
     private String title;
     private String mode;
@@ -31,7 +34,7 @@ public class Timeline {
 
     }
 
-    public Timeline(int id, User owner, String timelineTitle, Set<Event> events) {
+    public Timeline(int id, User owner, String timelineTitle, HashSet<Event> events) {
         this.id = id;
         this.owner = owner;
         this.title = timelineTitle;

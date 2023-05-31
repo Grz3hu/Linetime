@@ -13,8 +13,10 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
+
+    @ManyToOne()
     @JoinColumn(name="timeline_id", nullable=false)
+    @JsonBackReference("timeline-events")
     private Timeline timeline;
 
     private String date;
@@ -34,5 +36,9 @@ public class Event {
         this.url = url;
         this.cardSubtitle = cardSubtitle;
         this.cardDetailedText = cardDetailedText;
+    }
+
+    public int getTimelineId(){
+        return timeline.getId();
     }
 }

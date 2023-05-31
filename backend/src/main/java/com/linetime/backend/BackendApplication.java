@@ -1,6 +1,7 @@
 package com.linetime.backend;
 
 import com.linetime.backend.repository.RoleRepository;
+import com.linetime.backend.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,10 @@ public class BackendApplication {
 	private RoleRepository roleRepository;
 
 	public static void main(String[] args) {
+//		Role user = new Role("ROLE_USER");
+//		Role admin = new Role("ROLE_ADMIN");
+//		roleRepository.save(user);
+//		roleRepository.save(admin);
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
