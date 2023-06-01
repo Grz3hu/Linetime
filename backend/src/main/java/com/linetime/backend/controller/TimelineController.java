@@ -43,6 +43,7 @@ public class TimelineController {
         Timeline timeline = new Timeline();
         timeline.setTitle(newTimeline.getTitle());
         timeline.setEvents(newTimeline.getEvents());
+        timeline.setMode(newTimeline.getMode());
         timeline.setOwner(userRepository.findByUsernameOrEmail(currentPrincipalName,currentPrincipalName).get());
         timelineRepository.save(timeline);
 
@@ -66,6 +67,7 @@ public class TimelineController {
         Timeline result = timelineRepository.findById(id)
                 .map(timeline -> {
                     timeline.setTitle(payload.getTimelineTitle());
+                    timeline.setMode(payload.getMode());
                     timeline.setEvents(payload.getEvents());
                     return timelineRepository.save(timeline);
                 }).orElseThrow(() -> new TimelineNotFoundException(id)); //TODO Investigate if exception is needed

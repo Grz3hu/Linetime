@@ -19,7 +19,7 @@ public class Event {
     @JsonBackReference("timeline-events")
     private Timeline timeline;
 
-    private String date;
+    private String title;
     private String cardTitle;
     private String url;
     private String cardSubtitle;
@@ -28,10 +28,10 @@ public class Event {
     public Event() {
     }
 
-    public Event(int id, Timeline timeline, String date, String cardTitle, String url, String cardSubtitle, String cardDetailedText) {
+    public Event(int id, Timeline timeline, String title, String cardTitle, String url, String cardSubtitle, String cardDetailedText) {
         this.id = id;
         this.timeline = timeline;
-        this.date = date;
+        this.title = title;
         this.cardTitle = cardTitle;
         this.url = url;
         this.cardSubtitle = cardSubtitle;

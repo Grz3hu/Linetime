@@ -36,7 +36,7 @@ function App() {
           <Route exact path="/timeline/:id" element={<ViewTimeline />} />
           <Route exact path="/browse_timelines" element={<BrowseTimeline />} />
           <Route exact path="/add_timeline" element={<AddTimeline />} />
-          <Route exact path="/add_event" element={<AddEvent />} />
+          <Route exact path="/add_event/:id" element={<AddEvent />} />
         </Routes>
 
       </Router>

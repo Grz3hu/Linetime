@@ -11,8 +11,6 @@ export default function BrowseTimelines() {
 
     const loadTimelines = async () => {
         const result = await axios.get("http://localhost:8080/timeline/all");
-
-        console.log(result.data);
         setTimelines(result.data);
     };
     

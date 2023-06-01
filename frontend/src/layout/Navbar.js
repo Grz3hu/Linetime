@@ -28,6 +28,10 @@ export default function Navbar() {
         return localStorage.getItem("token")!=null;
     }
     
+    function getAddEventPath(){
+        return "/add_event/" + window.location.pathname.split("/").pop();
+    }
+    
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -35,7 +39,7 @@ export default function Navbar() {
                     <a className="navbar-brand" href="/"><img src={logo} width='140vw' alt='Linetime'/></a>
 
                     <div>
-                        {isLoggedIn() ? <Link className='btn btn-outline-light me-2' to="/add_event">Add event</Link> :''}
+                        {isLoggedIn() && window.location.pathname.includes("/timeline/") ? <Link className='btn btn-outline-light me-2' to={getAddEventPath()}>Add event</Link> :''}
                         {isLoggedIn() ? <Link className='btn btn-outline-light me-2' to="/add_timeline">Add timeline</Link> :''}
                         <Link className='btn btn-outline-light me-2' to="/browse_timelines">Browse timelines</Link>
                         {isLoggedIn() && isadmin.admin ? <Link className='btn btn-outline-light me-2' to="/users">Browse Users</Link> : ''}

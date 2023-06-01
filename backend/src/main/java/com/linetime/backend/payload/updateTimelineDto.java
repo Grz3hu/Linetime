@@ -11,4 +11,5 @@ public class updateTimelineDto {
     private Set<Event> events;
 
     private String timelineTitle;
+    private String mode;
 }

@@ -1,7 +1,6 @@
 package com.linetime.backend.controller;
 
 import com.linetime.backend.exception.EventNotFoundException;
-import com.linetime.backend.exception.TimelineNotFoundException;
 import com.linetime.backend.model.Event;
 import com.linetime.backend.model.User;
 import com.linetime.backend.payload.EventDto;
@@ -51,7 +50,7 @@ public class EventController {
         }
 
         Event newEvent = new Event();
-        newEvent.setDate(payload.getDate());
+        newEvent.setTitle(payload.getTitle());
         newEvent.setCardSubtitle(payload.getCardSubtitle());
         newEvent.setUrl(payload.getUrl());
         newEvent.setCardTitle(payload.getCardTitle());
@@ -84,7 +83,7 @@ public class EventController {
 
         Event newEvent = eventRepository.findById(id)
                         .map( event -> {
-                                    event.setDate(payload.getDate());
+                                    event.setTitle(payload.getTitle());
                                     event.setCardSubtitle(payload.getCardSubtitle());
                                     event.setUrl(payload.getUrl());
                                     event.setCardTitle(payload.getCardTitle());

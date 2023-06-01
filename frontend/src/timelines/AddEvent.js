@@ -9,6 +9,7 @@ export default function AddEvent() {
   const { id } = useParams();
 
   const [t_event, setT_Event] = useState({
+    timelineId: id,
     date: "",
     cardTitle: "",
     cardSubtitle: "",
@@ -21,19 +22,10 @@ export default function AddEvent() {
     setT_Event({ ...t_event, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    loadUser();
-  }, []);
-
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:8080/timeline/${id}`, t_event);
+    await axios.post(`http://localhost:8080/event/create`, t_event);
     navigate("/");
-  };
-
-  const loadUser = async () => {
-    const result = await axios.get(`http://localhost:8080/timeline/${id}`);
-    setT_Event(result.data);
   };
 
   return (
