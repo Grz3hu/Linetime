@@ -24,8 +24,8 @@ export default function BrowseTimelines() {
     return (
         <div className='container'>
             <h2 className="text-center m-4">Browse Timelines</h2>
-            <div className='py-4'>
-                <table className="table border shadow">
+            <div className='py-4 table-responsive'>
+                <table className="table table-sm border shadow">
                     <thead>
                         <tr>
                             <th scope="col">S.N</th>
@@ -42,9 +42,11 @@ export default function BrowseTimelines() {
                                     <td>{timeline.ownerName}</td>
                                     <td>{timeline.title}</td>
                                     <td>
-                                        <Link className='btn btn-primary mx-2' to={`/user/${timeline.ownerId}`}>Owner details</Link>
-                                        <Link className='btn btn-outline-primary mx-2' to={`/timeline/${timeline.id}`}>View Timeline</Link>
-                                        <button className="btn btn-danger mx-2" onClick={() => deleteTimeline(timeline.id)}>Delete</button>
+                                        <div class="d-grid gap-2 d-md-block">
+                                        <Link className='btn btn-primary mx-2 btn-sm' to={`/user/${timeline.ownerId}`}>Owner details</Link>
+                                        <Link className='btn btn-outline-primary mx-2 btn-sm' to={`/timeline/${timeline.id}`}>View Timeline</Link>
+                                        <button className='btn btn-danger mx-2 btn-sm' onClick={() => deleteTimeline(timeline.id)}>Delete</button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))

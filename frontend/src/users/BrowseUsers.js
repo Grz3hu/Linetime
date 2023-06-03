@@ -24,8 +24,8 @@ export default function BrowseUsers() {
     return (
         <div className='container'>
             <h2 className="text-center m-4">Browse Users</h2>
-            <div className='py-4'>
-                <table className="table border shadow">
+            <div className='py-4 table-responsive-sm'>
+                <table className="table table-sm border shadow">
                     <thead>
                         <tr>
                             <th scope="col">S.N</th>
@@ -44,9 +44,11 @@ export default function BrowseUsers() {
                                     <td>{user.username}</td>
                                     <td>{user.email}</td>
                                     <td>
-                                        <Link className='btn btn-primary mx-2' to={`/user/${user.id}`}>View</Link>
-                                        <Link className='btn btn-outline-primary mx-2' to={`/edituser/${user.id}`}>Edit</Link>
-                                        <button className="btn btn-danger mx-2" onClick={() => deleteUser(user.id)}>Delete</button>
+                                        <div class="d-grid gap-2 d-md-block">
+                                            <Link className='btn btn-primary mx-2 btn-sm' to={`/user/${user.id}`}>View</Link>
+                                            <Link className='btn btn-outline-primary mx-2 btn-sm' to={`/edituser/${user.id}`}>Edit</Link>
+                                            <button className='btn btn-danger mx-2 btn-sm' onClick={() => deleteUser(user.id)}>Delete</button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))
