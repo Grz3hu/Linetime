@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: linetime-frontend
+  name: linetime-frontend
+  namespace: linetime
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: linetime-frontend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: linetime-frontend
+    spec:
+      containers:
+      - image: linetime-frontend
+        imagePullPolicy: Never #get image from local ones
+        name: linetime-frontend
+        resources: {}
+status: {}

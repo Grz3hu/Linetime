@@ -1,0 +1,47 @@
+apiVersion: kubegres.reactive-tech.io/v1
+kind: Kubegres
+metadata:
+  name: postgres
+  namespace: linetime
+spec:
+   replicas: 3
+   image: postgres:16.0
+   database:
+      size: 500Mi
+   customConfig: postgres-init
+   env:
+      - name: POSTGRES_PASSWORD
+        valueFrom:
+           secretKeyRef:
+              name: postgres-secret
+              key: superUserPassword
+      - name: POSTGRES_REPLICATION_PASSWORD
+        valueFrom:
+           secretKeyRef:
+              name: postgres-secret
+              key: replicationUserPassword
+      - name: POSTGRES_DB
+        valueFrom:
+           configMapKeyRef:
+              name: postgres-config
+              key: postgres_db
+      - name: POSTGRES_USER
+        valueFrom:
+           configMapKeyRef:
+              name: postgres-config
+              key: postgres_user
+      - name: POSTGRES_MY_DB_PASSWORD
+        valueFrom:
+           secretKeyRef:
+              name: postgres-secret
+              key: myDbPassword
+      - name: POSTGRES_MY_DB_USER
+        valueFrom:
+           configMapKeyRef:
+              name: postgres-config
+              key: postgres_my_db_user
+      - name: POSTGRES_MY_DB_NAME
+        valueFrom:
+           configMapKeyRef:
+              name: postgres-config
+              key: postgres_my_db_name

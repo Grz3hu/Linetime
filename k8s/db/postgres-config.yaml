@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: linetime
+data:
+  postgres_db: "postgres"
+  postgres_user: "postgres"
+  postgres_my_db_name: "linetime_db"
+  postgres_my_db_user: "linetime_user"
