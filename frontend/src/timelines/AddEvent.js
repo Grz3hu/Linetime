@@ -24,7 +24,7 @@ export default function AddEvent() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`http://localhost:8080/event/create`, t_event);
+    await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/event/create`, t_event);
     navigate("/");
   };
 

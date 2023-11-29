@@ -10,14 +10,14 @@ export default function BrowseUsers() {
     }, []);
 
     const loadUsers = async () => {
-        const result = await axios.get("http://localhost:8080/user/all");
+        const result = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/user/all`);
         
         setUsers(result.data);
     };
 
 
     const deleteUser = async (id) => {
-        await axios.delete(`http://localhost:8080/user/${id}`);
+        await axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/user/${id}`);
         loadUsers();
     };
 

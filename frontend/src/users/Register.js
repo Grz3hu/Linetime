@@ -20,7 +20,7 @@ export default function AddUser() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/api/auth/signup", user);
+    await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/signup`, user);
     navigate("/login");
   };
 

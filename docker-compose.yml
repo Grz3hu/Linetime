@@ -26,6 +26,8 @@ services:
       - "3000:80"
     depends_on:
       - backend
+    environment:
+      REACT_APP_API_ENDPOINT: "http://localhost:8000"
 
   db:
     build:

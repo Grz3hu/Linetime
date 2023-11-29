@@ -19,7 +19,7 @@ export default function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/api/auth/signin", user)
+    await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/signin`, user)
     .then(response => {
         const token = response.data.token;
 

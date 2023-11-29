@@ -16,7 +16,7 @@ export default function Navbar() {
     const isAdmin = async () => {
         let data;
         try {
-        const result = await axios.get("http://localhost:8080/api/auth/isadmin");
+        const result = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/isadmin`);
         data = result.data;
         } catch(errr) {
             setIsAdmin(false);

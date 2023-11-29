@@ -10,12 +10,12 @@ export default function BrowseTimelines() {
     }, []);
 
     const loadTimelines = async () => {
-        const result = await axios.get("http://localhost:8080/timeline/all");
+        const result = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/timeline/all`);
         setTimelines(result.data);
     };
     
     const deleteTimeline = async (id) => {
-        await axios.delete(`http://localhost:8080/timeline/${id}`);
+        await axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/timeline/${id}`);
         loadTimelines();
     };
 

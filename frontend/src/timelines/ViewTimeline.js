@@ -13,7 +13,7 @@ export default function Timeline() {
     }, []);
 
     const loadTimeline = async () => {
-        const result = await axios.get(`http://localhost:8080/timeline/${id}`);
+        const result = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/timeline/${id}`);
         setTimeline(result.data);
     };
 

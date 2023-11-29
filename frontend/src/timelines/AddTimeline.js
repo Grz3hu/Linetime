@@ -21,7 +21,7 @@ export default function AddEvent() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`http://localhost:8080/timeline/create`, timeline);
+    await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/timeline/create`, timeline);
     navigate("/");
   };
 
