@@ -5,6 +5,8 @@ ERD Diagram:
 
 TODO:
 make roles creation automatic
+    \connect linetime-db
+    INSERT INTO roles (name) VALUES ('ROLE_USER');
 admin user auto creation
 cluster autoscaler for frontend/backend
 add api_endpoint env to frontend
