@@ -5,3 +5,7 @@ ERD Diagram:
 
 TODO:
 make roles creation automatic
+cluster autoscaler for frontend/backend
+add api_endpoint env to frontend
+add helmcharts
+(possibly) simplify amount of envs in k8s postgres definition
