@@ -5,6 +5,7 @@ ERD Diagram:
 
 TODO:
 make roles creation automatic
+admin user auto creation
 cluster autoscaler for frontend/backend
 add api_endpoint env to frontend
 add helmcharts
