@@ -23,8 +23,8 @@ public class Event {
     private String cardTitle;
     private String url;
     private String cardSubtitle;
-
-    @Column(columnDefinition = "TEXT")
+    
+    @Lob
     private String cardDetailedText;
 
     public Event() {
