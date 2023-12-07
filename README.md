@@ -12,3 +12,6 @@ cluster autoscaler for frontend/backend
 add api_endpoint env to frontend
 add helmcharts
 (possibly) simplify amount of envs in k8s postgres definition
+
+note:
+-H 'Content-Type: application/json' has to be set in order to curl
