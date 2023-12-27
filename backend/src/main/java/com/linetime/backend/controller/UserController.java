@@ -1,10 +1,19 @@
 package com.linetime.backend.controller;
 
+import com.linetime.backend.exception.TimelineNotFoundException;
 import com.linetime.backend.exception.UserNotFoundException;
+import com.linetime.backend.model.Timeline;
 import com.linetime.backend.model.User;
 import com.linetime.backend.repository.UserRepository;
+import com.linetime.backend.service.AuthService;
+import com.linetime.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import java.nio.file.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,39 +21,57 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
+    private final UserService userService;
     @Autowired
-    private UserRepository userRepository;
-
+    public UserController(final UserService userService) {
+        this.userService = userService;
+    }
     @GetMapping("/{id}")
-    User getUserById(@PathVariable Integer id){
-        return userRepository.findById(id)
-                .orElseThrow(()->new UserNotFoundException(id));
+    ResponseEntity<?> getUserById(@PathVariable Integer id){
+        try{
+            User user = userService.getUserById(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        catch ( UserNotFoundException e ){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/all")
-    List<User> getAllUsers() {
-        return userRepository.findAll();
+    ResponseEntity<?> getAllUsers() {
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    User updateUser(@RequestBody User newUser, @PathVariable Integer id) {
-        return userRepository.findById(id)
-                .map(user -> {
-                    user.setName(newUser.getName());
-                    user.setUsername(newUser.getUsername());
-                    user.setEmail(newUser.getEmail());
-                    return userRepository.save(user);
-                }).orElseThrow(() -> new UserNotFoundException(id));
+    ResponseEntity<?> updateUser(@RequestBody User newUser, @PathVariable Integer id) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userService.updateUser(newUser, id, username);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        catch ( UserNotFoundException e ){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        catch ( AccessDeniedException e ){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
     }
 
     @DeleteMapping("/{id}")
-    String deleteUser(@PathVariable Integer id){
-        if(!userRepository.existsById(id)){
-            throw new UserNotFoundException(id);
+    ResponseEntity<?> deleteUser(@PathVariable Integer id){
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            userService.deleteUser(id, username);
+            return new ResponseEntity<>("User with id "+id+" has been deleted successfully.", HttpStatus.OK);
         }
-        userRepository.deleteById(id);
-        return  "User with id "+id+" has been deleted successfully.";
+        catch ( UserNotFoundException e ){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        catch ( AccessDeniedException e ){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
     }
 
 }

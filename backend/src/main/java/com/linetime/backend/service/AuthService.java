@@ -10,8 +10,6 @@ import com.linetime.backend.payload.SignUpDto;
 import com.linetime.backend.repository.RoleRepository;
 import com.linetime.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,7 +30,7 @@ public class AuthService {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -70,7 +68,7 @@ public class AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        final UserDetails userDetails = customUserDetailsService
+        final UserDetails userDetails = userService
                 .loadUserByUsername(loginDto.getUsernameOrEmail());
 
         return jwtTokenUtil.generateToken(userDetails);

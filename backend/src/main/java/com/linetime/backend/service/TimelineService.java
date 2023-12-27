@@ -44,7 +44,7 @@ public class TimelineService {
         timeline.setTitle(newTimeline.getTitle());
         timeline.setEvents(newTimeline.getEvents());
         timeline.setMode(newTimeline.getMode());
-        User owner = userRepository.findByUsernameOrEmail(username,username).orElseThrow( () -> new UserNotFoundException(username)); //TODO CHECK IT
+        User owner = userRepository.findByUsernameOrEmail(username,username).orElseThrow( () -> new UserNotFoundException(username)); //T ODO CHECK IT
         timeline.setOwner(owner);
         timelineRepository.save(timeline);
 
@@ -52,9 +52,6 @@ public class TimelineService {
     }
 
     public Timeline updateTimeline(updateTimelineDto payload, Integer id, String username) throws AccessDeniedException, TimelineNotFoundException {
-        if(!timelineRepository.existsById(id)){
-            throw new TimelineNotFoundException(id);
-        }
         User owner = timelineRepository.findById(id).get().getOwner();
         User requestUser = userRepository.findByUsernameOrEmail(username,username).get();
         if(!owner.equals(requestUser)) {

@@ -1,8 +1,7 @@
 package com.linetime.backend.jwt;
 import java.io.IOException;
 
-import com.linetime.backend.jwt.JwtTokenUtil;
-import com.linetime.backend.service.CustomUserDetailsService;
+import com.linetime.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +17,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private CustomUserDetailsService jwtUserDetailsService;
+    private UserService jwtUserDetailsService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
