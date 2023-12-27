@@ -1,5 +1,7 @@
 package com.linetime.backend.controller;
 
+import com.linetime.backend.exception.EmailTakenException;
+import com.linetime.backend.exception.UsernameTakenException;
 import com.linetime.backend.jwt.JwtTokenUtil;
 import com.linetime.backend.jwt.JwtResponse;
 import com.linetime.backend.model.Role;
@@ -9,6 +11,7 @@ import com.linetime.backend.payload.LoginDto;
 import com.linetime.backend.payload.SignUpDto;
 import com.linetime.backend.repository.RoleRepository;
 import com.linetime.backend.repository.UserRepository;
+import com.linetime.backend.service.AuthService;
 import com.linetime.backend.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,72 +30,32 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+    private final AuthService authService;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    public AuthController(final AuthService authService) {
+        this.authService = authService;
+    }
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
-
-        // add check for username exists in a DB
-        if(userRepository.existsByUsername(signUpDto.getUsername())){
-            return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
+        try{
+            authService.registerUser(signUpDto);
+            return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
         }
-
-        // add check for email exists in DB
-        if(userRepository.existsByEmail(signUpDto.getEmail())){
-            return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+        catch(UsernameTakenException|EmailTakenException e){
+            return new ResponseEntity<>(e.getMessage() , HttpStatus.BAD_REQUEST);
         }
-
-        // create user object
-        User user = new User();
-        user.setName(signUpDto.getName());
-        user.setUsername(signUpDto.getUsername());
-        user.setEmail(signUpDto.getEmail());
-        user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-
-        Role roles = roleRepository.findByName("ROLE_USER").get();
-        user.setRoles(Collections.singleton(roles));
-
-        userRepository.save(user);
-
-        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
-
     }
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getUsernameOrEmail(), loginDto.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        final UserDetails userDetails = customUserDetailsService
-                .loadUserByUsername(loginDto.getUsernameOrEmail());
-
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
+        final String token = authService.authenticateUser(loginDto);
         return new ResponseEntity<>(new JwtResponse(token), HttpStatus.OK);
     }
 
     @GetMapping("/isadmin")
     public ResponseEntity<?> isAdmin(SecurityContextHolderAwareRequestWrapper request){
-        boolean result = request.isUserInRole("ROLE_ADMIN");
+        boolean result = authService.isAdmin(request);
         return new ResponseEntity<>(new IsAdminDto(result), HttpStatus.OK);
     }
 }
