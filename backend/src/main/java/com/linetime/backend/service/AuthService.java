@@ -1,6 +1,7 @@
 package com.linetime.backend.service;
 
 import com.linetime.backend.exception.EmailTakenException;
+import com.linetime.backend.exception.RoleNotFoundException;
 import com.linetime.backend.exception.UsernameTakenException;
 import com.linetime.backend.jwt.JwtTokenUtil;
 import com.linetime.backend.model.Role;
@@ -56,7 +57,7 @@ public class AuthService {
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
-        Role roles = roleRepository.findByName("ROLE_USER").get();
+        Role roles = roleRepository.findByName("ROLE_USER").orElseThrow( () -> new RoleNotFoundException("ROLE_USER"));
         user.setRoles(Collections.singleton(roles));
 
         userRepository.save(user);
