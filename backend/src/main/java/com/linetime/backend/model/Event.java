@@ -24,7 +24,6 @@ public class Event {
     private String url;
     private String cardSubtitle;
     
-    @Lob
     private String cardDetailedText;
 
     public Event() {
