@@ -30,3 +30,8 @@ spec:
           value: "update"
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:postgresql://postgres:5432/linetime_db"
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m

@@ -21,3 +21,8 @@ spec:
         env:
         - name: "REACT_APP_API_ENDPOINT" 
           value: "http://192.168.49.2/backend"
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
