@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - image: linetime-backend
-        imagePullPolicy: Never #get image from local ones
+        imagePullPolicy: Never
         name: linetime-backend
         env:
         - name: SPRING_DATASOURCE_PASSWORD

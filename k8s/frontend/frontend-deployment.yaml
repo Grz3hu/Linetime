@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - image: linetime-frontend
-        imagePullPolicy: Never #get image from local ones
+        imagePullPolicy: Never
         name: linetime-frontend
         env:
         - name: "REACT_APP_API_ENDPOINT" 
