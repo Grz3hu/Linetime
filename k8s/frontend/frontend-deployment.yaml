@@ -1,19 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: linetime-frontend
   name: linetime-frontend
   namespace: linetime
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: linetime-frontend
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: linetime-frontend
     spec:

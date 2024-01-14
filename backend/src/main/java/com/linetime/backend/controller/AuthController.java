@@ -29,7 +29,7 @@ public class AuthController {
             return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
         }
         catch(UsernameTakenException|EmailTakenException e){
-            return new ResponseEntity<>(e.getMessage() , HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage() , HttpStatus.CONFLICT);
         }
     }
 

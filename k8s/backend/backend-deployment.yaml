@@ -1,20 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: linetime-backend
   name: linetime-backend
   namespace: linetime
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: linetime-backend
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: linetime-backend
     spec:
@@ -22,7 +18,6 @@ spec:
       - image: linetime-backend
         imagePullPolicy: Never #get image from local ones
         name: linetime-backend
-        resources: {}
         env:
         - name: SPRING_DATASOURCE_PASSWORD
           valueFrom:
@@ -35,6 +30,3 @@ spec:
           value: "update"
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:postgresql://postgres:5432/linetime_db"
-
-
-status: {}
