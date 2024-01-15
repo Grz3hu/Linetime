@@ -16,13 +16,11 @@ export default function Navbar() {
     const isAdmin = async () => {
         let data;
         try {
-        const result = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/isadmin`);
-        data = result.data;
+            const { result } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/isadmin`);
+            setIsAdmin(true);
         } catch(errr) {
             setIsAdmin(false);
         }
-        setIsAdmin(data);
-        console.log(isadmin)
     };
 
     function Logout() {
@@ -59,7 +57,7 @@ export default function Navbar() {
                                 {isLoggedIn() ? <Link className='btn btn-outline-light mx-5 w-75' to="/browse_timelines">Browse timelines</Link>: ''}
                             </li>
                             <li className="nav-item">
-                                {isLoggedIn() && isadmin.admin ? <Link className='btn btn-outline-light mx-5 w-75' to="/users">Browse Users</Link> : ''}
+                                {isLoggedIn() && isadmin ? <Link className='btn btn-outline-light mx-5 w-75' to="/users">Browse Users</Link> : ''}
                             </li>
                             <li className="nav-item">
                                 {!isLoggedIn() ? <Link className='btn btn-outline-light mx-5 w-75' to="/login">Login</Link> : ''}
