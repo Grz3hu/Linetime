@@ -20,7 +20,7 @@ export default function Timeline() {
     return (
         <div>
             <h2 className="text-center m-4">{timeline.title}</h2>
-            <Chrono items={timeline.events} mode={timeline.mode} allowDynamicUpdate={true} />
+            <Chrono items={timeline.events} allowDynamicUpdate={true} />
         </div>
     );
 }
