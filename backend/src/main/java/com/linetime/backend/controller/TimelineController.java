@@ -45,15 +45,10 @@ public class TimelineController {
 
     @PostMapping("/create")
     ResponseEntity<?> createTimeline(@RequestBody Timeline newTimeline) {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            Timeline timeline = timelineService.createTimeline(newTimeline, username);
-            return new ResponseEntity<>(timeline, HttpStatus.OK);
-        }
-        catch ( UserNotFoundException e ){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Timeline timeline = timelineService.createTimeline(newTimeline, username);
+        return new ResponseEntity<>(timeline, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

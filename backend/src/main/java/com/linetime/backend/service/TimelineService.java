@@ -44,7 +44,7 @@ public class TimelineService {
         timeline.setTitle(newTimeline.getTitle());
         timeline.setEvents(newTimeline.getEvents());
         timeline.setMode(newTimeline.getMode());
-        User owner = userRepository.findByUsernameOrEmail(username,username).orElseThrow( () -> new UserNotFoundException(username));
+        User owner = userRepository.findByUsernameOrEmail(username,username).get();
         timeline.setOwner(owner);
         timelineRepository.save(timeline);
 
