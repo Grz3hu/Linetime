@@ -82,7 +82,7 @@ def add_event(timeline_id, text):
     cardsubtitle_input.send_keys(text)
     detailedtext_input.send_keys(text)
     # Submit
-    submit_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//button[text()="Submit"]')))
+    submit_button = driver.find_element(By.XPATH, '//button[text()="Submit"]')
     driver.execute_script("arguments[0].scrollIntoView();", submit_button)
     submit_button.click()
 
@@ -95,7 +95,6 @@ def delete_timeline(title):
 
 
 try:
-    # Generate a random name
     random_letters = ''.join(random.choices(string.ascii_letters, k=8))
     register(random_letters)
     login(random_letters)
@@ -103,7 +102,5 @@ try:
     timeline_id = view_timeline(random_letters)
     add_event(timeline_id, random_letters)
     delete_timeline(random_letters)
-
 finally:
-    # Close the browser window
     driver.quit()
