@@ -15,7 +15,3 @@ kubectl apply -f frontend/frontend-deployment.yaml
 kubectl apply -f frontend/frontend-service.yaml
 kubectl apply -f frontend/frontend-ingress.yaml
 kubectl apply -f frontend/frontend-autoscaler.yaml
-
-sleep 8
-kubectl exec -it -n linetime pods/postgres-1-0 -- sh -c $'export PGPASSWORD=postgresSuperUserPsw; psql -U postgres linetime_db -c "INSERT INTO roles (name) VALUES (\'ROLE_USER\');"'
-kubectl exec -it -n linetime pods/postgres-1-0 -- sh -c $'export PGPASSWORD=postgresSuperUserPsw; psql -U postgres linetime_db -c "INSERT INTO roles (name) VALUES (\'ROLE_ADMIN\');"'

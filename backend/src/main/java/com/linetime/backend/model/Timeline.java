@@ -25,7 +25,7 @@ public class Timeline {
 
     @OneToMany(mappedBy="timeline", cascade = CascadeType.ALL)
     @JsonManagedReference("timeline-events")
-    private Collection<Event> events; //WTF when there is Set instead of collection returned data is always null
+    private Collection<Event> events;
 
     private String title;
     private String mode;
