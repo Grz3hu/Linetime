@@ -94,13 +94,21 @@ def delete_timeline(title):
     view_timeline_link.click()
 
 
-try:
-    random_letters = ''.join(random.choices(string.ascii_letters, k=8))
-    register(random_letters)
-    login(random_letters)
-    add_timeline(random_letters)
-    timeline_id = view_timeline(random_letters)
-    add_event(timeline_id, random_letters)
-    delete_timeline(random_letters)
-finally:
-    driver.quit()
+if __name__ == '__main__':
+    try:
+        random_letters = ''.join(random.choices(string.ascii_letters, k=8))
+        register(random_letters)
+        time.sleep(1)
+        login(random_letters)
+        time.sleep(1)
+        for i in range(20):
+            add_timeline(random_letters)
+            time.sleep(1)
+            timeline_id = view_timeline(random_letters)
+            time.sleep(1)
+            add_event(timeline_id, random_letters)
+            time.sleep(1)
+            delete_timeline(random_letters)
+            time.sleep(1)
+    finally:
+        driver.quit()
